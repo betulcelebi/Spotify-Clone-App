@@ -4,7 +4,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:spotify_clone_app/ui/widgets/bottom_navigation.dart';
+
 
 class AlbumScreen extends StatefulWidget {
   const AlbumScreen({super.key});
@@ -14,7 +14,7 @@ class AlbumScreen extends StatefulWidget {
 }
 
 class _AlbumScreenState extends State<AlbumScreen> {
-  int _customSelectedIndex=0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -232,7 +232,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomWidget(selectedIndex: _customSelectedIndex),
+  
     );
   }
 }
