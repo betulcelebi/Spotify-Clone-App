@@ -5,7 +5,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-
 class AlbumScreen extends StatefulWidget {
   const AlbumScreen({super.key});
 
@@ -14,11 +13,9 @@ class AlbumScreen extends StatefulWidget {
 }
 
 class _AlbumScreenState extends State<AlbumScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,16 +139,12 @@ class _AlbumScreenState extends State<AlbumScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                     
                       child: Text("Songs",
                           style: GoogleFonts.roboto(
                               fontWeight: FontWeight.w700,
                               fontSize: 16,
                               color: Color(0xff222222)))),
                   Container(
-                   
-      
-                   
                     child: Text("See more",
                         style: GoogleFonts.roboto(
                             fontWeight: FontWeight.w400,
@@ -191,7 +184,8 @@ class _AlbumScreenState extends State<AlbumScreen> {
                                 child: Image.asset("assets/play.png"),
                               ),
                               Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text("Don't Smile At Me",
@@ -232,7 +226,6 @@ class _AlbumScreenState extends State<AlbumScreen> {
           ],
         ),
       ),
-  
     );
   }
 }

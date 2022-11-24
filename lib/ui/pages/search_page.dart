@@ -5,7 +5,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spotify_clone_app/ui/pages/search_page.dart';
 import '../../provider/spotify_provider.dart';
 
-
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -96,7 +95,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         return Card(
                           color: Colors.grey[800],
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                              borderRadius: BorderRadius.circular(10)),
                           child: provider.isLoading == true
                               ? CircularProgressIndicator()
                               : Container(
@@ -104,9 +103,14 @@ class _SearchScreenState extends State<SearchScreen> {
                                       const EdgeInsets.only(left: 10, top: 85),
                                   decoration: BoxDecoration(
                                       image: DecorationImage(
+                                          // colorFilter: ColorFilter.mode(
+                                          //     Colors.black, BlendMode.color),
                                           image: NetworkImage(
                                               '${provider.response?.categories?.items?[index].icons?[0].url}'),
-                                          fit: BoxFit.cover,opacity: 0.8,invertColors: true,alignment: Alignment.center ),
+                                          fit: BoxFit.cover,
+                                          opacity: 0.8,
+                                          invertColors: true,
+                                          alignment: Alignment.center),
                                       //color: itemsColor[index],
                                       borderRadius: BorderRadius.circular(8)),
                                   child: Text(
@@ -114,7 +118,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                     style: GoogleFonts.roboto(
                                         color: Colors.black,
                                         fontSize: 13,
-                                        fontWeight: FontWeight.w400),
+                                        fontWeight: FontWeight.w700),
                                   ),
                                 ),
                         );
