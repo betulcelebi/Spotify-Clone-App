@@ -1,13 +1,13 @@
-class UserPlayslistResponse {
+class UserPlaylistResponse {
   String? href;
   List<Items>? items;
-  dynamic? limit;
+  int? limit;
   String? next;
-  dynamic? offset;
+  int? offset;
   String? previous;
-  dynamic? total;
+  int? total;
 
-  UserPlayslistResponse(
+  UserPlaylistResponse(
       {this.href,
       this.items,
       this.limit,
@@ -16,7 +16,7 @@ class UserPlayslistResponse {
       this.previous,
       this.total});
 
-  UserPlayslistResponse.fromJson(Map<String, dynamic> json) {
+  UserPlaylistResponse.fromJson(Map<String, dynamic> json) {
     href = json['href'];
     if (json['items'] != null) {
       items = <Items>[];
@@ -148,9 +148,9 @@ class ExternalUrls {
 }
 
 class Images {
-  dynamic? height;
+  int? height;
   String? url;
-  dynamic? width;
+  int? width;
 
   Images({this.height, this.url, this.width});
 
@@ -212,7 +212,7 @@ class Owner {
 
 class Tracks {
   String? href;
-  dynamic? total;
+  int? total;
 
   Tracks({this.href, this.total});
 

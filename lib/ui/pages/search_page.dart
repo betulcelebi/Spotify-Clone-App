@@ -21,7 +21,8 @@ class _SearchScreenState extends State<SearchScreen> {
     super.initState();
     spotifyProvider = Provider.of<SpotifyProvider>(context, listen: false);
     spotifyProvider!.getCategoryData();
-    spotifyProvider!.getCategoryNewRelase();
+    
+    
   }
 
   @override
