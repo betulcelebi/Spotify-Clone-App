@@ -62,7 +62,9 @@ class _MyHomePageState extends State<MyHomePage> {
     //Sayfaların liste içerisinde tanımlanması
     const HomeScreen(),
     const SearchScreen(),
-    const AlbumScreen(),
+    const AlbumScreen(
+      id: '',
+    ),
     const ProfileScreen(),
   ];
 

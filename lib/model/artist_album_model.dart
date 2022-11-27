@@ -1,11 +1,11 @@
 class ArtistAlbumResponse {
   String? href;
   List<Items>? items;
-  dynamic? limit;
+  int? limit;
   String? next;
-  dynamic? offset;
+  int? offset;
   String? previous;
-  dynamic? total;
+  int? total;
 
   ArtistAlbumResponse(
       {this.href,
@@ -44,8 +44,6 @@ class ArtistAlbumResponse {
     data['total'] = this.total;
     return data;
   }
-
-  ArtistAlbumResponse? fromJson(data) {}
 }
 
 class Items {
@@ -59,7 +57,7 @@ class Items {
   String? name;
   String? releaseDate;
   String? releaseDatePrecision;
-  dynamic? totalTracks;
+  int? totalTracks;
   String? type;
   String? uri;
 
@@ -184,9 +182,9 @@ class ExternalUrls {
 }
 
 class Images {
-  dynamic? height;
+  int? height;
   String? url;
-  dynamic? width;
+  int? width;
 
   Images({this.height, this.url, this.width});
 

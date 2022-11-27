@@ -6,7 +6,7 @@ class ArtistModelResponse {
   String? id;
   List<Images>? images;
   String? name;
-  dynamic? popularity;
+  int? popularity;
   String? type;
   String? uri;
 
@@ -84,7 +84,7 @@ class ExternalUrls {
 
 class Followers {
   Null? href;
-  dynamic? total;
+  int? total;
 
   Followers({this.href, this.total});
 
@@ -102,9 +102,9 @@ class Followers {
 }
 
 class Images {
-  dynamic? height;
+  int? height;
   String? url;
-  dynamic? width;
+  int? width;
 
   Images({this.height, this.url, this.width});
 

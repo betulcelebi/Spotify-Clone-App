@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:spotify_clone_app/ui/pages/search_page.dart';
 import '../../provider/spotify_provider.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -17,12 +16,9 @@ SpotifyProvider? spotifyProvider;
 class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     spotifyProvider = Provider.of<SpotifyProvider>(context, listen: false);
     spotifyProvider!.getCategoryData();
-    
-    
   }
 
   @override
@@ -31,7 +27,7 @@ class _SearchScreenState extends State<SearchScreen> {
       builder: (BuildContext context, SpotifyProvider provider, Widget? child) {
         return Scaffold(
           body: SingleChildScrollView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.only(top: 50, left: 25, right: 25),
               child: Column(
@@ -54,6 +50,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(20)),
                     child: const TextField(
+                      cursorColor: Colors.grey,
                       obscureText: true,
                       decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search),
@@ -67,12 +64,12 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 35),
+                    padding: const EdgeInsets.only(top: 35, left: 10),
                     child: Text(
                       "Hepsine göz at",
                       style: GoogleFonts.roboto(
                         fontSize: 15,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
@@ -84,40 +81,44 @@ class _SearchScreenState extends State<SearchScreen> {
                         top: 20,
                         bottom: 32,
                       ),
-                      itemCount: 10,
+                      itemCount: provider.response?.categories?.items?.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               childAspectRatio: 1,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 5,
+                              mainAxisSpacing: 5,
                               mainAxisExtent: 120),
                       itemBuilder: (context, index) {
                         return Card(
-                          color: Colors.grey[800],
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           child: provider.isLoading == true
-                              ? CircularProgressIndicator()
+                              ? const Center(child: CircularProgressIndicator())
                               : Container(
                                   padding:
                                       const EdgeInsets.only(left: 10, top: 85),
                                   decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Color(0xff42C83C)
+                                                .withOpacity(0.7),
+                                            spreadRadius: 4,
+                                            blurRadius: 2,
+                                            offset: Offset(1, 2))
+                                      ],
                                       image: DecorationImage(
-                                          // colorFilter: ColorFilter.mode(
-                                          //     Colors.black, BlendMode.color),
                                           image: NetworkImage(
                                               '${provider.response?.categories?.items?[index].icons?[0].url}'),
                                           fit: BoxFit.cover,
-                                          opacity: 0.8,
-                                          invertColors: true,
+                                          opacity: 0.9,
                                           alignment: Alignment.center),
-                                      //color: itemsColor[index],
-                                      borderRadius: BorderRadius.circular(8)),
+                                      color: Colors.white.withOpacity(0.8),
+                                      borderRadius: BorderRadius.circular(20)),
                                   child: Text(
                                     '${provider.response?.categories?.items?[index].name?.toLowerCase()}',
                                     style: GoogleFonts.roboto(
-                                        color: Colors.black,
+                                        color: Colors.white.withOpacity(0.8),
                                         fontSize: 13,
                                         fontWeight: FontWeight.w700),
                                   ),

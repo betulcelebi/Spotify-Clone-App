@@ -1,9 +1,9 @@
-class CategoryNewRelasesResponse {
+class CategoryNewReleasesResponse {
   Albums? albums;
 
-  CategoryNewRelasesResponse({this.albums});
+  CategoryNewReleasesResponse({this.albums});
 
-  CategoryNewRelasesResponse.fromJson(Map<String, dynamic> json) {
+  CategoryNewReleasesResponse.fromJson(Map<String, dynamic> json) {
     albums =
         json['albums'] != null ? new Albums.fromJson(json['albums']) : null;
   }
@@ -23,7 +23,7 @@ class Albums {
   int? limit;
   String? next;
   int? offset;
-  String? previous;
+  Null? previous;
   int? total;
 
   Albums(

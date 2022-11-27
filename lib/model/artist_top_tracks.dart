@@ -1,9 +1,9 @@
-class ArtistTopTracks {
+class ArtistTopTracksResponse {
   List<Tracks>? tracks;
 
-  ArtistTopTracks({this.tracks});
+  ArtistTopTracksResponse({this.tracks});
 
-  ArtistTopTracks.fromJson(Map<String, dynamic> json) {
+  ArtistTopTracksResponse.fromJson(Map<String, dynamic> json) {
     if (json['tracks'] != null) {
       tracks = <Tracks>[];
       json['tracks'].forEach((v) {
@@ -24,8 +24,8 @@ class ArtistTopTracks {
 class Tracks {
   Album? album;
   List<Artists>? artists;
-  dynamic? discNumber;
-  dynamic? durationMs;
+  int? discNumber;
+  int? durationMs;
   bool? explicit;
   ExternalIds? externalIds;
   ExternalUrls? externalUrls;
@@ -34,9 +34,9 @@ class Tracks {
   bool? isLocal;
   bool? isPlayable;
   String? name;
-  dynamic? popularity;
+  int? popularity;
   String? previewUrl;
-  dynamic? trackNumber;
+  int? trackNumber;
   String? type;
   String? uri;
 
@@ -129,7 +129,7 @@ class Album {
   String? name;
   String? releaseDate;
   String? releaseDatePrecision;
-  dynamic? totalTracks;
+  int? totalTracks;
   String? type;
   String? uri;
 
@@ -251,9 +251,9 @@ class ExternalUrls {
 }
 
 class Images {
-  dynamic? height;
+  int? height;
   String? url;
-  dynamic? width;
+  int? width;
 
   Images({this.height, this.url, this.width});
 
