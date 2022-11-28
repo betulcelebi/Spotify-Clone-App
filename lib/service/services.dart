@@ -15,7 +15,7 @@ final Dio _dio = Dio(
     baseUrl: "https://api.spotify.com/v1/",
     headers: {
       "Authorization":
-          "Bearer BQD5mm1qemTWdo5wpvKdDZhRMGw3hzOzzSHnZ6QhzwxRlWeunX7Ng4nKFUAk9qlKjP17aRK9d_oiTUdS-pT3ztFbOdBeM-ZvV9lvBIgNWVWUrQ2iJwuqLG8y6AAMAUdGfy6c0nduL_tK7lUa6H8gvFdf2Np53kkpu01DGmyCVO-XtIdSHT4eErTcZdEOlj1rxd-jzOba5pLe-giHk3j8LRzRjJfrfCBhuqKpQnsQGpQ1c_Sj73svX2jQ9iuH3_pWtnBy-1SvqjPGgKxL0Lhz_bvrHw"
+          "Bearer BQDgADiyV1Qowqpugc7lH8iN3Iq63ExIhkRwfh8ElVl9QBxvnfu5DuUaB4MKHnuiiIEFp4Uq7ZUOXTczLZMNEFZx8DELspkvcOxTtiSQyKm3gtEx-DoLxO0doxn11Jq4xMG8ZhGZ37ni8pp44Ho4ELJg9L0UcsqgyS2x7ZMTrPc34gYLtDKA4P47OCJ65Yf8Kw9aN6xXca34iqSXsK_nIs4UFMlfgqGBimzEoqI9jphV4gtaaTMuEh1xWu9EuNdKJNJ-4HW7PsKB3hGAIprPV6Z_3Q"
     },
   ),
 );
@@ -145,7 +145,7 @@ Future<SearchModelResponse?> getSearchService({required String query}) async {
   SearchModelResponse? searchResponse;
   try {
     final response = await _dio.get(
-        "search?query=$query&type=artist&market=ES&locale=es-ES%2Ctr%3Bq%3D0.9%2Cen-US%3Bq%3D0.8%2Cen%3Bq%3D0.7&offset=0&limit=30");
+        "search?query=$query&type=artist&market=ES&locale=tr%2Cen-US%3Bq%3D0.9%2Cen%3Bq%3D0.8%2Ctr-TR%3Bq%3D0.7%2Cru%3Bq%3D0.6&offset=0&limit=10");
     print(response.data);
     searchResponse = SearchModelResponse.fromJson(response.data);
 
