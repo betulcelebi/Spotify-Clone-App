@@ -3,6 +3,7 @@ import 'package:spotify_clone_app/model/artist_album_model.dart';
 import 'package:spotify_clone_app/model/artist_model.dart';
 import 'package:spotify_clone_app/model/category_model.dart';
 import 'package:spotify_clone_app/model/category_new_relases.dart';
+import 'package:spotify_clone_app/model/search_model.response.dart';
 
 import 'package:spotify_clone_app/model/user_playlist_model.dart';
 import 'package:spotify_clone_app/model/user_profile_model.dart';
@@ -26,8 +27,11 @@ class SpotifyProvider with ChangeNotifier {
 
   ArtistAlbumResponse? artistAlbumResponse = ArtistAlbumResponse();
 
+  SearchModelResponse? searchResponse = SearchModelResponse();
+
   String? artistId;
   String? id;
+  String query = "betül";
 
   bool isLoading = false;
   getCategoryData() async {
@@ -83,6 +87,20 @@ class SpotifyProvider with ChangeNotifier {
     isLoading = true;
     artistAlbumResponse = await getArtistAlbumService(artistId);
     isLoading = false;
+    notifyListeners();
+  }
+
+  getSearchData() async {
+    isLoading = true;
+    searchResponse = await getSearchService(query: query);
+
+    isLoading = false;
+    notifyListeners();
+  }
+
+  getQueryData(String query) async {
+    this.query = query;
+    getSearchData();
     notifyListeners();
   }
 }

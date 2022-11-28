@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:spotify_clone_app/model/search_model.response.dart';
 
 import 'package:spotify_clone_app/model/user_playlist_model.dart';
 import 'package:spotify_clone_app/model/user_profile_model.dart';
@@ -14,7 +15,7 @@ final Dio _dio = Dio(
     baseUrl: "https://api.spotify.com/v1/",
     headers: {
       "Authorization":
-          "Bearer BQBCxvCjDjxsqTNSxI5ScaGStSoSHDG4XF4L0B98qbLWpfSNMmY_FSQ3hcu_mL94wyxDizuG_LHp0WItYD_o-mrIwpeTXZBZTnYZXnM_C2teV8PR93BI4Y8tsRfh4oBrCOe3ZyD2w3zNxNG4QZKNWomDhoOZZ9Du5bz4NfP4fN8_LaupIYxQrS-sJ468-cGOAzB1DItcu7REH5AnyvO33SzIsU9ScRZmSRSDm_cFet_1_KfnZDq4-V1C-Clb-JhmXtt3fg9wWM5io6W5b0-YgBuLnw"
+          "Bearer BQD5mm1qemTWdo5wpvKdDZhRMGw3hzOzzSHnZ6QhzwxRlWeunX7Ng4nKFUAk9qlKjP17aRK9d_oiTUdS-pT3ztFbOdBeM-ZvV9lvBIgNWVWUrQ2iJwuqLG8y6AAMAUdGfy6c0nduL_tK7lUa6H8gvFdf2Np53kkpu01DGmyCVO-XtIdSHT4eErTcZdEOlj1rxd-jzOba5pLe-giHk3j8LRzRjJfrfCBhuqKpQnsQGpQ1c_Sj73svX2jQ9iuH3_pWtnBy-1SvqjPGgKxL0Lhz_bvrHw"
     },
   ),
 );
@@ -134,6 +135,21 @@ Future<ArtistTopTracksResponse?> getArtistTopTrackService(
     artistTopTracksResponse = ArtistTopTracksResponse.fromJson(response.data);
 
     return artistTopTracksResponse;
+  } catch (e) {
+    print(e);
+  }
+  return null;
+}
+
+Future<SearchModelResponse?> getSearchService({required String query}) async {
+  SearchModelResponse? searchResponse;
+  try {
+    final response = await _dio.get(
+        "search?query=$query&type=artist&market=ES&locale=es-ES%2Ctr%3Bq%3D0.9%2Cen-US%3Bq%3D0.8%2Cen%3Bq%3D0.7&offset=0&limit=30");
+    print(response.data);
+    searchResponse = SearchModelResponse.fromJson(response.data);
+
+    return searchResponse;
   } catch (e) {
     print(e);
   }

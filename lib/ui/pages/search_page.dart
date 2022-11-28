@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:spotify_clone_app/ui/pages/search_detail.dart';
 import '../../provider/spotify_provider.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -49,7 +50,16 @@ class _SearchScreenState extends State<SearchScreen> {
                     height: 40,
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                    child: const TextField(
+                    child: TextField(
+                      onTap: () {
+                        Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                const SearchDetailPage(),
+                          ),
+                        );
+                      },
                       cursorColor: Colors.grey,
                       obscureText: true,
                       decoration: InputDecoration(
@@ -92,21 +102,21 @@ class _SearchScreenState extends State<SearchScreen> {
                       itemBuilder: (context, index) {
                         return Card(
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
+                              borderRadius: BorderRadius.circular(20)),
                           child: provider.isLoading == true
                               ? const Center(child: CircularProgressIndicator())
                               : Container(
                                   padding:
                                       const EdgeInsets.only(left: 10, top: 85),
                                   decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Color(0xff42C83C)
-                                                .withOpacity(0.7),
-                                            spreadRadius: 4,
-                                            blurRadius: 2,
-                                            offset: Offset(1, 2))
-                                      ],
+                                      // boxShadow: [
+                                      //   BoxShadow(
+                                      //       color: Color(0xff42C83C)
+                                      //           .withOpacity(0.7),
+                                      //       spreadRadius: 4,
+                                      //       blurRadius: 2,
+                                      //       offset: Offset(1, 2))
+                                      // ],
                                       image: DecorationImage(
                                           image: NetworkImage(
                                               '${provider.response?.categories?.items?[index].icons?[0].url}'),
