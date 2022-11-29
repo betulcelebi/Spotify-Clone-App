@@ -56,6 +56,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           context,
                           MaterialPageRoute<void>(
                             builder: (BuildContext context) =>
+                            provider.isLoading? CircularProgressIndicator():
                                 const SearchDetailPage(),
                           ),
                         );

@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
+      //  physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
             Consumer(
@@ -215,8 +215,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     left: 110,
                                     child: Container(
                                       alignment: Alignment.center,
-                                      width: 29,
-                                      height: 29,
+                                      width: 32,
+                                      height: 32,
                                       decoration: const BoxDecoration(
                                           color: Color(0xffE6E6E6),
                                           shape: BoxShape.circle),
@@ -278,8 +278,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 return provider.isLoading
                     ? const Center(child: CircularProgressIndicator())
                     : SizedBox(
-                        height: 200,
+                        //height: 200,
                         child: ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
                           padding: const EdgeInsets.all(0),
                           itemCount:
                               provider.artistTopTracksResponse?.tracks?.length,

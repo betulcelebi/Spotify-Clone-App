@@ -15,7 +15,7 @@ final Dio _dio = Dio(
     baseUrl: "https://api.spotify.com/v1/",
     headers: {
       "Authorization":
-          "Bearer BQDgADiyV1Qowqpugc7lH8iN3Iq63ExIhkRwfh8ElVl9QBxvnfu5DuUaB4MKHnuiiIEFp4Uq7ZUOXTczLZMNEFZx8DELspkvcOxTtiSQyKm3gtEx-DoLxO0doxn11Jq4xMG8ZhGZ37ni8pp44Ho4ELJg9L0UcsqgyS2x7ZMTrPc34gYLtDKA4P47OCJ65Yf8Kw9aN6xXca34iqSXsK_nIs4UFMlfgqGBimzEoqI9jphV4gtaaTMuEh1xWu9EuNdKJNJ-4HW7PsKB3hGAIprPV6Z_3Q"
+          "Bearer BQDn3H3HAdx5MvsVbgTWPBmnymWcw_SJe8Mha3J9rw6mBOJN7YNB9l3yNNjwJh3Sp5iHPYDF7L1d-8MlsXMqcws6XbRru8O1o0fkh3db1e0eNm3aSf2MG3jnZF3pxXa-5m8nhN6ia7swU2S7d3g3W0-pjvKlq8q-MvWeQ3RxcVELCHM6c6B5vIr9JxV8v_FyDZbn0KkeZkNt3_Y-wukPDvE1YuLAmdP6aBSu5IohyOhcPWIWKzmoRyDc5eLhH7irU0W8f7PxOrHAJIgVgQfny6iEmw"
     },
   ),
 );
@@ -36,7 +36,7 @@ Future<CategoryModelResponse?> getCategoryService() async {
   return null;
 }
 
-Future<List<Categories>?> getCategoriesIdService(String id) async {
+Future<List<Categories>?> getCategoriesIdService({required String id}) async {
   try {
     final response = await _dio.get(
         "browse/categories/$id/tracks?country=ES&locale=es_ES&offset=0&limit=20");
@@ -145,7 +145,23 @@ Future<SearchModelResponse?> getSearchService({required String query}) async {
   SearchModelResponse? searchResponse;
   try {
     final response = await _dio.get(
-        "search?query=$query&type=artist&market=ES&locale=tr%2Cen-US%3Bq%3D0.9%2Cen%3Bq%3D0.8%2Ctr-TR%3Bq%3D0.7%2Cru%3Bq%3D0.6&offset=0&limit=10");
+        "search?query=$query&type=artist&market=ES&locale=es-ES%2Ctr%3Bq%3D0.9%2Cen-US%3Bq%3D0.8%2Cen%3Bq%3D0.7&offset=0&limit=30");
+    print(response.data);
+    searchResponse = SearchModelResponse.fromJson(response.data);
+
+    return searchResponse;
+  } catch (e) {
+    print(e);
+  }
+  return null;
+}
+
+
+Future<SearchModelResponse?> getAlbumService({required String query}) async {
+  SearchModelResponse? searchResponse;
+  try {
+    final response = await _dio.get(
+        "search?query=$query&type=artist&market=ES&locale=es-ES%2Ctr%3Bq%3D0.9%2Cen-US%3Bq%3D0.8%2Cen%3Bq%3D0.7&offset=0&limit=30");
     print(response.data);
     searchResponse = SearchModelResponse.fromJson(response.data);
 
