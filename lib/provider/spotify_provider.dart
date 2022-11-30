@@ -36,6 +36,7 @@ class SpotifyProvider with ChangeNotifier {
   String? id;
   String query = "betül";
   bool isLoading = false;
+  var item;
 
   getCategoryData() async {
     isLoading = true;
@@ -64,6 +65,7 @@ class SpotifyProvider with ChangeNotifier {
     isLoading = true;
     playlistIdResponse = await getPlaylistIdService(id);
     isLoading = false;
+    notifyListeners();
   }
 
   getArtistIdData(String? id) async {

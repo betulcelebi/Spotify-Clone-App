@@ -25,10 +25,11 @@ class _AlbumScreenState extends State<AlbumScreen> {
   }
 
   apisFunction() async {
-    spotifyProvider!.getArtistIdData(widget.id);
+   await spotifyProvider!.getArtistIdData(widget.id);
     await spotifyProvider!.getArtistAlbumData(widget.id);
-    spotifyProvider!.getAlbumTrackData(
+   await spotifyProvider!.getAlbumTrackData(
         spotifyProvider?.artistAlbumResponse?.items?.first.id);
+        
   }
 
   @override

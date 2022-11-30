@@ -196,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
-                                provider.getPlaylistIdData(provider
+                               provider.item=provider.getPlaylistIdData(provider
                                     .futurePlaylistResponse
                                     ?.playlists
                                     ?.items?[index]

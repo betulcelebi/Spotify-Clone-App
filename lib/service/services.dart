@@ -17,7 +17,7 @@ final Dio _dio = Dio(
     baseUrl: "https://api.spotify.com/v1/",
     headers: {
       "Authorization":
-          "Bearer BQBxaaxbAnFLU22cRxvWf6QJHgU0aDRc1q6zM_qgRp3qSJqciMAyPI5bx4wjteK8Ksqy4nAuricyWMdycBWe5qf-fDcbv5igO6wnuA_IoURSrcyxWrRHPTELSbOiB2tGLgKSqXp-uw8zTY3Dn_KK-ZxMdTSzlKVqERBitHBDYFRBfp0Z-pc50Kh9zg4rcDBBTGSOQRbhu5vZqpYhx4mvlPGNgiwNLg6L_Nb252UXgrgMCBPUbicfzibrjenqz_X7BW1hibL5bLn4wAvc4-gQ9JSBdw"
+          "Bearer BQApVI39D-GH8aKNfeytY0HrQAdGqV7Vm6YRfM3zt2SpgGVKdYaA7l9XRCAMk6DdaWtXlOugab4fLBGYwI2iHYjPqVy8zPHzVTp1h9BFE5vVyIP7iB5G0lSHL8j94_zGcYghiLUkzFyiN-WQz_Vdykn0KwCvYCxayrDZQW-PiaokUz2s6psLX_HxPdcI3euGkJPoYAMKkZOXxjd6vK8YikvUjLOtz0lgSKB0tmeIea0SL5TxxvE5x3MCts1NAQtlcY97_BwnQvNyWrrpoFI6aXfW1w"
     },
   ),
 );
