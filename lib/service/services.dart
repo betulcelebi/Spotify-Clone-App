@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:spotify_clone_app/model/future_playlist_model.dart';
+import 'package:spotify_clone_app/model/playlist_id_model.dart';
 import 'package:spotify_clone_app/model/search_model.response.dart';
 
 import 'package:spotify_clone_app/model/user_playlist_model.dart';
@@ -6,16 +8,16 @@ import 'package:spotify_clone_app/model/user_profile_model.dart';
 
 import '../model/artist_album_model.dart';
 import '../model/artist_model.dart';
-import '../model/artist_top_tracks.dart';
+import '../model/album_track_model.dart';
 import '../model/category_model.dart';
-import '../model/category_new_relases.dart';
+import '../model/future_playlist_model.dart';
 
 final Dio _dio = Dio(
   BaseOptions(
     baseUrl: "https://api.spotify.com/v1/",
     headers: {
       "Authorization":
-          "Bearer BQDn3H3HAdx5MvsVbgTWPBmnymWcw_SJe8Mha3J9rw6mBOJN7YNB9l3yNNjwJh3Sp5iHPYDF7L1d-8MlsXMqcws6XbRru8O1o0fkh3db1e0eNm3aSf2MG3jnZF3pxXa-5m8nhN6ia7swU2S7d3g3W0-pjvKlq8q-MvWeQ3RxcVELCHM6c6B5vIr9JxV8v_FyDZbn0KkeZkNt3_Y-wukPDvE1YuLAmdP6aBSu5IohyOhcPWIWKzmoRyDc5eLhH7irU0W8f7PxOrHAJIgVgQfny6iEmw"
+          "Bearer BQBxaaxbAnFLU22cRxvWf6QJHgU0aDRc1q6zM_qgRp3qSJqciMAyPI5bx4wjteK8Ksqy4nAuricyWMdycBWe5qf-fDcbv5igO6wnuA_IoURSrcyxWrRHPTELSbOiB2tGLgKSqXp-uw8zTY3Dn_KK-ZxMdTSzlKVqERBitHBDYFRBfp0Z-pc50Kh9zg4rcDBBTGSOQRbhu5vZqpYhx4mvlPGNgiwNLg6L_Nb252UXgrgMCBPUbicfzibrjenqz_X7BW1hibL5bLn4wAvc4-gQ9JSBdw"
     },
   ),
 );
@@ -36,16 +38,86 @@ Future<CategoryModelResponse?> getCategoryService() async {
   return null;
 }
 
-Future<List<Categories>?> getCategoriesIdService({required String id}) async {
+// Future<CategoryNewReleasesResponse?> getCategoryNewRelaseService() async {
+//   CategoryNewReleasesResponse? categoryNewRelaseResponse;
+//   try {
+//     final response =
+//         await _dio.get("browse/new-releases?country=ES&limit=10&offset=0");
+//     categoryNewRelaseResponse =
+//         CategoryNewReleasesResponse.fromJson(response.data);
+
+//     return categoryNewRelaseResponse;
+//   } catch (e) {
+//     print(e);
+//   }
+//   return null;
+// }
+
+Future<FuturePlaylistResponse?> getFuturePlaylistService() async {
+  FuturePlaylistResponse? futurePlaylistResponse;
   try {
     final response = await _dio.get(
-        "browse/categories/$id/tracks?country=ES&locale=es_ES&offset=0&limit=20");
-    List<dynamic> idList = response.data["categories"]["items"];
+        "browse/featured-playlists?country=ES&locale=es_ES&limit=10&offset=0");
+    futurePlaylistResponse = FuturePlaylistResponse.fromJson(response.data);
 
-    List<Categories> categoryList =
-        idList.map((user) => Categories.fromJson(user)).toList();
-    print(categoryList);
-    return categoryList;
+    return futurePlaylistResponse;
+  } catch (e) {
+    print(e);
+  }
+  return null;
+}
+
+Future<PlaylistIdResponse?> getPlaylistIdService(String? id) async {
+  PlaylistIdResponse? playlistIdResponse;
+  try {
+    final response = await _dio.get("playlists/$id?market=ES");
+    playlistIdResponse = PlaylistIdResponse.fromJson(response.data);
+
+    return playlistIdResponse;
+  } catch (e) {
+    print(e);
+  }
+  return null;
+}
+
+Future<ArtistModelResponse?> getArtistIdService(String? id) async {
+  ArtistModelResponse? artistResponse;
+  try {
+    final response = await _dio.get("artists/$id ");
+    print(response.data);
+    artistResponse = ArtistModelResponse.fromJson(response.data);
+
+    return artistResponse;
+  } catch (e) {
+    print(e);
+  }
+  return null;
+}
+
+Future<ArtistAlbumResponse?> getArtistAlbumService(String? id) async {
+  ArtistAlbumResponse? artistAlbumResponse;
+  try {
+    final response =
+        await _dio.get("artists/$id/albums?market=ES&limit=10&offset=0");
+    print(response.data);
+    artistAlbumResponse = ArtistAlbumResponse.fromJson(response.data);
+
+    return artistAlbumResponse;
+  } catch (e) {
+    print(e);
+  }
+  return null;
+}
+
+Future<AlbumTrackResponse?> getAlbumTrackService(String? id) async {
+  AlbumTrackResponse? allbumTracksResponse;
+  try {
+    final response =
+        await _dio.get("albums/$id/tracks?market=ES&limit=10&offset=0");
+    print(response.data);
+    allbumTracksResponse = AlbumTrackResponse.fromJson(response.data);
+
+    return allbumTracksResponse;
   } catch (e) {
     print(e);
   }
@@ -80,88 +152,11 @@ Future<UserPlaylistResponse?> getUserPlaylistService() async {
   return null;
 }
 
-Future<CategoryNewReleasesResponse?> getCategoryNewRelaseService() async {
-  CategoryNewReleasesResponse? categoryNewRelaseResponse;
-  try {
-    final response =
-        await _dio.get("browse/new-releases?country=ES&limit=10&offset=0");
-    categoryNewRelaseResponse =
-        CategoryNewReleasesResponse.fromJson(response.data);
-
-    return categoryNewRelaseResponse;
-  } catch (e) {
-    print(e);
-  }
-  return null;
-}
-
-Future<ArtistModelResponse?> getArtistIdService(String? artistId) async {
-  ArtistModelResponse? artistResponse;
-  try {
-    final response =
-        await _dio.get("artists/${artistId ?? '0TnOYISbd1XYRBk9myaseg'}");
-    print(response.data);
-    artistResponse = ArtistModelResponse.fromJson(response.data);
-
-    return artistResponse;
-  } catch (e) {
-    print(e);
-  }
-  return null;
-}
-
-Future<ArtistAlbumResponse?> getArtistAlbumService(String? artistId) async {
-  ArtistAlbumResponse? artistAlbumResponse;
-  try {
-    final response = await _dio.get(
-        "artists/${artistId ?? '0TnOYISbd1XYRBk9myaseg'}/albums?market=ES&limit=10&offset=5");
-    print(response.data);
-    artistAlbumResponse = ArtistAlbumResponse.fromJson(response.data);
-
-    return artistAlbumResponse;
-  } catch (e) {
-    print(e);
-  }
-  return null;
-}
-
-Future<ArtistTopTracksResponse?> getArtistTopTrackService(
-    String? artistId) async {
-  ArtistTopTracksResponse? artistTopTracksResponse;
-  try {
-    final response = await _dio.get(
-        "artists/${artistId ?? '0TnOYISbd1XYRBk9myaseg'}/top-tracks?market=ES");
-    print(response.data);
-    artistTopTracksResponse = ArtistTopTracksResponse.fromJson(response.data);
-
-    return artistTopTracksResponse;
-  } catch (e) {
-    print(e);
-  }
-  return null;
-}
-
 Future<SearchModelResponse?> getSearchService({required String query}) async {
   SearchModelResponse? searchResponse;
   try {
     final response = await _dio.get(
-        "search?query=$query&type=artist&market=ES&locale=es-ES%2Ctr%3Bq%3D0.9%2Cen-US%3Bq%3D0.8%2Cen%3Bq%3D0.7&offset=0&limit=30");
-    print(response.data);
-    searchResponse = SearchModelResponse.fromJson(response.data);
-
-    return searchResponse;
-  } catch (e) {
-    print(e);
-  }
-  return null;
-}
-
-
-Future<SearchModelResponse?> getAlbumService({required String query}) async {
-  SearchModelResponse? searchResponse;
-  try {
-    final response = await _dio.get(
-        "search?query=$query&type=artist&market=ES&locale=es-ES%2Ctr%3Bq%3D0.9%2Cen-US%3Bq%3D0.8%2Cen%3Bq%3D0.7&offset=0&limit=30");
+        "v1/search?q=$query&type=track%2Cartist&market=ES&limit=10&offset=0");
     print(response.data);
     searchResponse = SearchModelResponse.fromJson(response.data);
 

@@ -1,14 +1,16 @@
 import 'package:flutter/cupertino.dart';
+import 'package:spotify_clone_app/model/album_track_model.dart';
 import 'package:spotify_clone_app/model/artist_album_model.dart';
 import 'package:spotify_clone_app/model/artist_model.dart';
 import 'package:spotify_clone_app/model/category_model.dart';
 import 'package:spotify_clone_app/model/category_new_relases.dart';
+import 'package:spotify_clone_app/model/future_playlist_model.dart';
+import 'package:spotify_clone_app/model/playlist_id_model.dart';
 import 'package:spotify_clone_app/model/search_model.response.dart';
 
 import 'package:spotify_clone_app/model/user_playlist_model.dart';
 import 'package:spotify_clone_app/model/user_profile_model.dart';
 
-import '../model/artist_top_tracks.dart';
 import '../service/services.dart';
 
 class SpotifyProvider with ChangeNotifier {
@@ -18,25 +20,69 @@ class SpotifyProvider with ChangeNotifier {
 
   UserPlaylistResponse? userPlaylistResponse = UserPlaylistResponse();
 
-  CategoryNewReleasesResponse? newReleaseResponse =
-      CategoryNewReleasesResponse();
-
-  ArtistTopTracksResponse? artistTopTracksResponse = ArtistTopTracksResponse();
+  // CategoryNewReleasesResponse? newReleaseResponse =
+  //     CategoryNewReleasesResponse();
 
   ArtistModelResponse? artistIdResponse = ArtistModelResponse();
 
   ArtistAlbumResponse? artistAlbumResponse = ArtistAlbumResponse();
 
   SearchModelResponse? searchResponse = SearchModelResponse();
+  AlbumTrackResponse? albumTrackResponse = AlbumTrackResponse();
 
-  String? artistId;
+  PlaylistIdResponse? playlistIdResponse = PlaylistIdResponse();
+  FuturePlaylistResponse? futurePlaylistResponse = FuturePlaylistResponse();
+
   String? id;
   String query = "betül";
-
   bool isLoading = false;
+
   getCategoryData() async {
     isLoading = true;
     response = await getCategoryService();
+    isLoading = false;
+    notifyListeners();
+  }
+
+  // getNewReleaseData() async {
+  //   isLoading = true;
+  //   newReleaseResponse = await getCategoryNewRelaseService();
+  //   isLoading = false;
+
+  //   notifyListeners();
+  // }
+
+  getFuturePlaylistData() async {
+    isLoading = true;
+    futurePlaylistResponse = await getFuturePlaylistService();
+    isLoading = false;
+
+    notifyListeners();
+  }
+
+  getPlaylistIdData(String? id) async {
+    isLoading = true;
+    playlistIdResponse = await getPlaylistIdService(id);
+    isLoading = false;
+  }
+
+  getArtistIdData(String? id) async {
+    isLoading = true;
+    artistIdResponse = await getArtistIdService(id);
+    isLoading = false;
+    notifyListeners();
+  }
+
+  getArtistAlbumData(String? id) async {
+    isLoading = true;
+    artistAlbumResponse = await getArtistAlbumService(id);
+    isLoading = false;
+    notifyListeners();
+  }
+
+  getAlbumTrackData(String? id) async {
+    isLoading = true;
+    albumTrackResponse = await getAlbumTrackService(id);
     isLoading = false;
     notifyListeners();
   }
@@ -50,42 +96,6 @@ class SpotifyProvider with ChangeNotifier {
   getUserPlaylistData() async {
     isLoading = true;
     userPlaylistResponse = await getUserPlaylistService();
-    isLoading = false;
-    notifyListeners();
-  }
-
-  getNewReleaseData() async {
-    isLoading = true;
-    newReleaseResponse = await getCategoryNewRelaseService();
-    isLoading = false;
-    getArtistTopTracksData(
-        userId: newReleaseResponse!.albums!.items![0].artists![0].id);
-    notifyListeners();
-  }
-
-  setArtistId(String id) {
-    artistId = id;
-    notifyListeners();
-    getArtistTopTracksData(userId: id);
-  }
-
-  getArtistTopTracksData({String? userId}) async {
-    isLoading = true;
-    artistTopTracksResponse = await getArtistTopTrackService(id = userId);
-    isLoading = false;
-    notifyListeners();
-  }
-
-  getArtistIdData() async {
-    isLoading = true;
-    artistIdResponse = await getArtistIdService(artistId);
-    isLoading = false;
-    notifyListeners();
-  }
-
-  getArtistAlbumData() async {
-    isLoading = true;
-    artistAlbumResponse = await getArtistAlbumService(artistId);
     isLoading = false;
     notifyListeners();
   }

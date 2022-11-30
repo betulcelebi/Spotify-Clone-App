@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:spotify_clone_app/ui/pages/album_page.dart';
 import "package:spotify_clone_app/ui/pages/home_page.dart";
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   apisFunction() async {
-    await spotifyProvider!.getNewReleaseData();
-    await spotifyProvider!.getArtistTopTracksData();
+    await spotifyProvider!.getFuturePlaylistData();
+    spotifyProvider!.getPlaylistIdData(
+        spotifyProvider!.futurePlaylistResponse?.playlists?.items?.first.id);
   }
 
   List<String> songList = ["News", "Video", "Artists", "Podcast"];
@@ -44,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-      //  physics: const NeverScrollableScrollPhysics(),
+        //  physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
             Consumer(
@@ -96,13 +98,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   color: Color(0xffFBFBFB),
                                                   fontWeight: FontWeight.w500)),
                                           Text(
-                                              "${provider.newReleaseResponse?.albums?.items?[0].name}",
+                                              "${provider.futurePlaylistResponse?.playlists?.items?[0].name}",
                                               style: const TextStyle(
                                                   fontSize: 20,
                                                   color: Color(0xffFBFBFB),
                                                   fontWeight: FontWeight.w700)),
                                           Text(
-                                              "${provider.newReleaseResponse?.albums?.items?[0].artists?[0].name}",
+                                              "${provider.futurePlaylistResponse?.playlists?.items?[0].name}",
                                               // ignore: prefer_const_constructors
                                               style: TextStyle(
                                                   fontSize: 13,
@@ -131,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: FadeInDown(
                                     delay: const Duration(seconds: 1),
                                     child: Image.network(
-                                        "${provider.newReleaseResponse?.albums?.items?[0].images?[0].url}"),
+                                        "${provider.futurePlaylistResponse?.playlists?.items?[0].images?[0].url}"),
                                   ),
                                 ),
                               )),
@@ -190,66 +192,76 @@ class _HomeScreenState extends State<HomeScreen> {
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemCount: provider
-                              .newReleaseResponse?.albums?.items?.length,
+                              .futurePlaylistResponse?.playlists?.items?.length,
                           itemBuilder: (context, index) {
-                            return SlideInLeft(
-                              delay: Duration(seconds: 1),
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                      right: 14,
+                            return InkWell(
+                              onTap: () {
+                                provider.getPlaylistIdData(provider
+                                    .futurePlaylistResponse
+                                    ?.playlists
+                                    ?.items?[index]
+                                    .id);
+                              },
+                              child: SlideInLeft(
+                                delay: Duration(seconds: 1),
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                        right: 14,
+                                      ),
+                                      width: 148,
+                                      height: 185,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          color: Colors.transparent,
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                  "${provider.futurePlaylistResponse?.playlists?.items?[index].images?.first.url}"),
+                                              fit: BoxFit.cover)),
                                     ),
-                                    width: 148,
-                                    height: 185,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(30),
-                                        color: Colors.transparent,
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                                "${provider.newReleaseResponse?.albums?.items?[index].images?[0].url}"),
-                                            fit: BoxFit.cover)),
-                                  ),
-                                  Positioned(
-                                    top: 170,
-                                    left: 110,
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      width: 32,
-                                      height: 32,
-                                      decoration: const BoxDecoration(
-                                          color: Color(0xffE6E6E6),
-                                          shape: BoxShape.circle),
-                                      child: Image.asset("assets/play.png"),
+                                    Positioned(
+                                      top: 170,
+                                      left: 110,
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width: 32,
+                                        height: 32,
+                                        decoration: const BoxDecoration(
+                                            color: Color(0xffE6E6E6),
+                                            shape: BoxShape.circle),
+                                        child: Image.asset("assets/play.png"),
+                                      ),
                                     ),
-                                  ),
-                                  Positioned(
-                                    top: 200,
-                                    left: 15,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "${provider.newReleaseResponse?.albums?.items?[index].name}",
-                                          style: GoogleFonts.roboto(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 17),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                            "${provider.newReleaseResponse?.albums?.items?[index].artists?[0].name}",
+                                    Positioned(
+                                      top: 200,
+                                      left: 15,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "${provider.futurePlaylistResponse?.playlists?.items?[index].name}",
                                             style: GoogleFonts.roboto(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 13))
-                                      ],
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 17),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                              "${provider.futurePlaylistResponse?.playlists?.items?[index].description}",
+                                              style: GoogleFonts.roboto(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 13))
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             );
                           },
@@ -282,61 +294,90 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ListView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           padding: const EdgeInsets.all(0),
-                          itemCount:
-                              provider.artistTopTracksResponse?.tracks?.length,
+                          itemCount: provider
+                                  .playlistIdResponse?.tracks?.items?.length ??
+                              1,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
-                            return SizedBox(
-                              height: 60,
-                              child: ListTile(
-                                contentPadding:
-                                    const EdgeInsets.only(left: 28, right: 30),
-                                isThreeLine: true,
-                                minVerticalPadding: 1,
-                                minLeadingWidth: 1,
-                                enabled: true,
-                                leading: Container(
-                                  alignment: Alignment.center,
-                                  width: 38,
-                                  height: 38,
-                                  decoration: const BoxDecoration(
-                                      color: Color(0xffE6E6E6),
-                                      shape: BoxShape.circle),
-                                  child: Image.asset("assets/play.png"),
-                                ),
-                                title: Text(
-                                  "${provider.artistTopTracksResponse?.tracks?[index].album?.name}",
-                                  style: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                subtitle: Text(
-                                  "${provider.artistTopTracksResponse?.tracks?[index].artists?[0].name}",
-                                  style: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                trailing: Container(
-                                  width: 100,
-                                  //color: Colors.amber,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                          TimeConvert()
-                                              .milisecontToSecondAndMinute(
-                                                  provider
-                                                      .artistTopTracksResponse
-                                                      ?.tracks?[index]
-                                                      .durationMs),
-                                          style: GoogleFonts.roboto(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 15)),
-                                      Image.asset("assets/solid-like.png")
-                                    ],
+                            return InkWell(
+                              onTap: () async {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AlbumScreen(
+                                        id: "${provider.playlistIdResponse?.tracks?.items?[index].track?.artists?.first.id}"),
+                                  ),
+                                );
+                              },
+                              child: SizedBox(
+                                height: 60,
+                                child: ListTile(
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 28, right: 30),
+                                  isThreeLine: true,
+                                  minVerticalPadding: 1,
+                                  minLeadingWidth: 1,
+                                  enabled: true,
+                                  leading: Container(
+                                    alignment: Alignment.center,
+                                    width: 38,
+                                    height: 38,
+                                    decoration: const BoxDecoration(
+                                        color: Color(0xffE6E6E6),
+                                        shape: BoxShape.circle),
+                                    child: Image.asset("assets/play.png"),
+                                  ),
+                                  title: Text(
+                                    provider
+                                            .playlistIdResponse
+                                            ?.tracks
+                                            ?.items?[index]
+                                            .track
+                                            ?.album
+                                            ?.name ??
+                                        "",
+                                    style: GoogleFonts.roboto(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  subtitle: Text(
+                                    provider
+                                            .playlistIdResponse
+                                            ?.tracks
+                                            ?.items?[index]
+                                            .track
+                                            ?.artists
+                                            ?.first
+                                            .name ??
+                                        "",
+                                    style: GoogleFonts.roboto(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  trailing: Container(
+                                    width: 100,
+                                    //color: Colors.amber,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                            TimeConvert()
+                                                .milisecontToSecondAndMinute(
+                                                    provider
+                                                        .playlistIdResponse
+                                                        ?.tracks
+                                                        ?.items?[index]
+                                                        .track
+                                                        ?.durationMs),
+                                            style: GoogleFonts.roboto(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 15)),
+                                        Image.asset("assets/solid-like.png")
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

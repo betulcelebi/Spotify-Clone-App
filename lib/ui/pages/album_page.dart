@@ -25,9 +25,10 @@ class _AlbumScreenState extends State<AlbumScreen> {
   }
 
   apisFunction() async {
-    await spotifyProvider!.getArtistIdData();
-    await spotifyProvider!.getArtistAlbumData();
-    await spotifyProvider!.getArtistTopTracksData();
+    spotifyProvider!.getArtistIdData(widget.id);
+    await spotifyProvider!.getArtistAlbumData(widget.id);
+    spotifyProvider!.getAlbumTrackData(
+        spotifyProvider?.artistAlbumResponse?.items?.first.id);
   }
 
   @override
@@ -52,7 +53,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                       image: NetworkImage(
-                                          "${provider.artistIdResponse?.images?[0].url}"),
+                                          "${provider.artistAlbumResponse?.items?.first.images?.first.url}"),
                                       fit: BoxFit.cover),
                                   color: Colors.transparent,
                                   borderRadius: const BorderRadius.only(
@@ -69,8 +70,14 @@ class _AlbumScreenState extends State<AlbumScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Image.asset("assets/left_chevron.png",
-                                      color: Colors.white),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.pop(context, true);
+                                    },
+                                    child: Image.asset(
+                                        "assets/left_chevron.png",
+                                        color: Colors.white),
+                                  ),
                                   Image.asset(
                                     "assets/more_vertical.png",
                                     color: Colors.white,
@@ -199,8 +206,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
                         height: 200,
                         child: ListView.builder(
                           padding: const EdgeInsets.all(0),
-                          itemCount:
-                              provider.artistTopTracksResponse?.tracks?.length,
+                          itemCount: provider.albumTrackResponse?.items?.length,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
                             return SizedBox(
@@ -222,7 +228,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
                                   child: Image.asset("assets/play.png"),
                                 ),
                                 title: Text(
-                                  "${provider.artistTopTracksResponse?.tracks?[index].album?.name}",
+                                  "${provider.albumTrackResponse?.items?[index].name}",
                                   style: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 1.8.h,
@@ -230,7 +236,18 @@ class _AlbumScreenState extends State<AlbumScreen> {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 subtitle: Text(
-                                  "${provider.artistTopTracksResponse?.tracks?[index].artists?[0].name}",
+                                  provider.albumTrackResponse?.items?[index]
+                                          .artists
+                                          ?.map(
+                                            (e) {
+                                              return e.name;
+                                            },
+                                          )
+                                          .toList()
+                                          .toString()
+                                          .replaceAll("]", "")
+                                          .replaceAll("[", "") ??
+                                      "",
                                   style: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 1.3.h,
@@ -248,9 +265,10 @@ class _AlbumScreenState extends State<AlbumScreen> {
                                           TimeConvert()
                                               .milisecontToSecondAndMinute(
                                                   provider
-                                                      .artistTopTracksResponse
-                                                      ?.tracks?[index]
-                                                      .durationMs),
+                                                          .albumTrackResponse
+                                                          ?.items?[index]
+                                                          .durationMs ??
+                                                      2),
                                           style: GoogleFonts.roboto(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 1.9.h,
